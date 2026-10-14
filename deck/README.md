@@ -175,13 +175,11 @@ module docstring before trusting a green run** — two things are worth knowing 
    fixture are real, just not over the real corpus — pass `--world` to check the thing that
    actually matters. A sibling checkout of `Day26-Colosseum-Agent-Arena` has one at
    `corpus_snapshot/df8c55dabb35`.
-2. **The lethality band ("falls to rookie, held by adversary") cannot be fully checked from
-   here.** `bots/rookie/` and `bots/adversary/` do not exist in this tree, and the live mutation
-   engine is instructor-only. `validate_deck.py` runs the honest, kit-only, mechanical proxies it
-   CAN stand behind (does the op find a real target at all — genuinely equivalent to "falls to a
-   forward-everything rookie"; is the card structurally defendable by a `deny` at all) and
-   reports the rest as a visible `WARN`, never a silent pass. Once the bot ladder exists, extend
-   `check_lethality_band()` to actually run it.
+2. **The validator cannot prove the full lethality band ("falls to rookie, held by adversary").**
+   This checkout includes `bots/` and the local mutation engine, and `spar.py` runs reproducible
+   MockBroker exchanges against those bots. `validate_deck.py` still reports R8 as a warning
+   because its offline proxy does not establish the official tournament result. Use role-specific
+   spar runs to review attacks and defense, then treat the live arena result as authoritative.
 
 The shipped `deck/deck.json` + `deck/lineup.json` pass every `FAIL`-level check against the real
 corpus (`corpus_snapshot/df8c55dabb35`) — verified, not asserted; see
